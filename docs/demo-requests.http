@@ -1,0 +1,160 @@
+##
+## For VSCode or based, install extension: humao.rest-client
+##
+
+######################## [BEGIN OF ENVIRONMENT VARS] ########################
+@AUTH_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTc3MjY1NjM5MSwiZXhwIjoxNzcyNzQyNzkxfQ.zyLISlxNxKMPwMcOjzt9U8Fa_QxynPPm2DCBXX-HcHw
+######################### [END OF ENVIRONMENT VARS] #########################
+
+### Login
+POST http://localhost:3000/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "admin@mail.com",
+    "password": "power@123"
+}
+
+### Check auth user
+POST http://localhost:3000/api/auth/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+{
+    "with": ["name", "email", "permissions"]
+}
+
+# Customers API
+
+# Manage customer records. The customers table contains the following notable columns:
+# - `businessName`: the primary name of the company
+# - `status`: one of 'active', 'standby', 'archived', 'inactive'
+
+## Endpoints
+
+### List Customers (Paginated)
+GET http://localhost:3000/api/customers?page=1&per_page=10&search=Acme
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### List All Customers (Short)
+# Returns an unpaginated list of all customers, primarily for use in dropdowns.
+GET http://localhost:3000/api/customers/all
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### List All Customers full data (paginated)
+# Returns a paginated list of customers, with full data.
+GET http://localhost:3000/api/customers?page=1&per_page=5
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### Get Customer
+# Retrieve a single customer.
+GET http://localhost:3000/api/customers/1
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### Create Customer
+# Creates a new customer.
+POST http://localhost:3000/api/customers
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+{
+  "businessName": "New Corp",
+  "nameOnInvoice": "New Corp Ltd",
+  "status": "active",
+  "email": "contact@newcorp.com"
+}
+
+### Update Customer
+# Updates an existing customer.
+# PUT `/api/customers/:id`
+
+PUT http://localhost:3000/api/customers/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### Get Next Invoice Number
+# Returns the next sequential invoice number for this customer.
+
+# **GET** `/api/customers/:id/invoices/next-number`
+
+GET http://localhost:3000/api/customers/1/invoices/next-number
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+
+# Invoices API
+
+# Manage customer invoices with automatic calculations for subtotals, discounts, and totals.
+
+## Endpoints
+
+### List Invoices (Paginated)
+# Retrieves a paginated list of invoices.
+
+# **GET** `/api/invoices`
+GET http://localhost:3000/api/invoices?page=1&per_page=10&status=sent
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+
+### Get Invoice
+# Retrieve a single invoice and its items. Can join with the customer name.
+# **GET** `/api/invoices/:id`
+GET http://localhost:3000/api/invoices/1
+Accept: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### Create Invoice
+# Creates a new invoice for a customer. The backend automatically calculates `discount_amount`, `subtotal`, and `total`.
+# **POST** `/api/invoices`
+
+POST http://localhost:3000/api/invoices
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+{
+  "customerId": 1,
+  "number": 2,
+  "currency": "USD",
+  "status": "draft",
+  "items": [
+    {
+      "name": "Service A",
+      "quantity": 2,
+      "unit_price": 500
+    }
+  ],
+  "discountType": "percent",
+  "discountValue": 10,
+  "fees": []
+}
+
+### Update Invoice
+# Updates an invoice, recalculating totals automatically on save.
+#
+# **PUT** `/api/invoices/:id`
+
+PUT http://localhost:3000/api/invoices/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+{
+  "status": "sent",
+  "items": [
+    {
+      "name": "Service A",
+      "quantity": 3,
+      "unit_price": 500
+    }
+  ]
+}
