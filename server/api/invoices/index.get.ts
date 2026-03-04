@@ -1,7 +1,7 @@
-import { db } from '../../utils/db';
-import { invoices, customers } from '../../drizzle/schema';
+import { db } from '@@/server/utils/db';
+import { invoices, customers } from '@@/server/drizzle/schema';
 import { asc, desc, eq, and, or, sql, count } from 'drizzle-orm';
-import type { PaginatedResponse, ApiError } from '../../../types';
+import type { PaginatedResponse, ApiError } from '@@/types';
 
 export default defineEventHandler(async (event) => {
     try {

@@ -1,5 +1,5 @@
-import { extractTokenFromHeader, verifyToken } from '../utils/auth';
-import type { ApiError } from '../../types';
+import { extractTokenFromHeader, verifyToken } from '@@/server/utils/auth';
+import type { ApiError } from '@@/types';
 
 export default defineEventHandler((event) => {
     const url = getRequestURL(event);

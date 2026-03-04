@@ -1,6 +1,6 @@
-import { db } from '../../utils/db';
-import { customers } from '../../drizzle/schema';
-import type { ApiError } from '../../../types';
+import { db } from '@@/server/utils/db';
+import { customers } from '@@/server/drizzle/schema';
+import type { ApiError } from '@@/types';
 
 export default defineEventHandler(async (event) => {
     try {

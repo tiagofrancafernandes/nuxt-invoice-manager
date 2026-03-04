@@ -1,7 +1,7 @@
-import { db } from '../../utils/db';
-import { invoices, customers } from '../../drizzle/schema';
+import { db } from '@@/server/utils/db';
+import { invoices, customers } from '@@/server/drizzle/schema';
 import { eq } from 'drizzle-orm';
-import type { ApiError, InvoiceItem, InvoiceFee } from '../../../types';
+import type { ApiError, InvoiceItem, InvoiceFee } from '@@/types';
 
 interface UpdateInvoiceBody {
     status?: string;

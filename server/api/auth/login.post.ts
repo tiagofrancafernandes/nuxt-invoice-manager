@@ -1,9 +1,9 @@
-import { db } from '../../utils/db';
-import { users } from '../../drizzle/schema';
+import { db } from '@@/server/utils/db';
+import { users } from '@@/server/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import * as bcrypt from 'bcrypt';
-import { signToken } from '../../utils/auth';
-import type { ApiError } from '../../../types';
+import { signToken } from '@@/server/utils/auth';
+import type { ApiError } from '@@/types';
 
 export default defineEventHandler(async (event) => {
     try {
