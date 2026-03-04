@@ -36,4 +36,7 @@ Locally preview production build:
 npm run preview
 ```
 
+### Code style
+- Follow UNIVERSAL-CODE-STYLE-RULES.md spec. Is mandatory!
+
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
