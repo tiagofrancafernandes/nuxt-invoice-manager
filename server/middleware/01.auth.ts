@@ -4,8 +4,8 @@ import type { ApiError } from '@@/types';
 export default defineEventHandler((event) => {
     const url = getRequestURL(event);
 
-    // Skip middleware for non-API routes or login path
-    if (!url.pathname.startsWith('/api/') || url.pathname === '/api/auth/login') {
+    // Skip middleware for non-API routes, login path, or OPTIONS requests (preflight)
+    if (!url.pathname.startsWith('/api/') || url.pathname === '/api/auth/login' || event.method === 'OPTIONS') {
         return;
     }
 
